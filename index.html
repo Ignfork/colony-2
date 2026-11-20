@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colony · $Colony</title>
+<meta name="description" content="Colony: the launchpad where coins grow as colonies. Every creator fee goes to the holders, in SOL, every 3 minutes.">
+<meta property="og:title" content="Colony · $Colony"><meta property="og:description" content="The launchpad built for colonies to grow and last.">
+<meta name="theme-color" content="#0e1222">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpolygon points='16,2 28,9 28,23 16,30 4,23 4,9' fill='%233ee6a8'/%3E%3Cpolygon points='16,9 22,12.5 22,19.5 16,23 10,19.5 10,12.5' fill='%230e1222'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: confident launchpad, warm and bright, plain sentences, no hype
+   IDEA: a living honeycomb colony; each coin is a cell, the payout desk sits at its heart, holders are colonists
+   PICTURE: a deep 3D hex colony with fee pulses leaving the desk and pixel colonists walking between cells
+   COLOUR and TYPE: deep ink ground, six cell colours (mint lead, amber, coral, sky, violet, pink); Silkscreen pixel display + Manrope
+   LAYOUT: hero scene, stats, podium, fee flow, ranks, wear gallery, ledger, coin + FAQ; hash pages for colonies, how, launch, ledger, bags */
+:root{color-scheme:dark;--bg:#0e1222;--bg2:#121730;--panel:#171d38;--panel2:#1f2748;--line:#2a3360;--ink:#f1f3ff;--mute:#a7afd6;--dim:#7680ae;
+--mint:#3ee6a8;--amber:#ffc145;--coral:#ff6f61;--sky:#4db8ff;--violet:#a48bff;--pink:#ff7eca;--r:16px}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:84px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Manrope,system-ui,sans-serif;overflow-x:clip}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 520px at 12% -8%,#3ee6a81f,transparent 60%),radial-gradient(800px 520px at 95% 6%,#a48bff26,transparent 60%),radial-gradient(800px 600px at 50% 112%,#ff6f611c,transparent 60%)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16v32L28 64 0 48V16zM28 64v33M0 16L-28 0M56 16l28-16' fill='none' stroke='%23ffffff' stroke-opacity='.035'/%3E%3C/svg%3E");mask-image:linear-gradient(#000,transparent 70%)}
+a{color:inherit}
+h1,h2,h3{margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+.px{font-family:Silkscreen,monospace;letter-spacing:.02em}
+.wrap{max-width:1200px;margin:0 auto;padding:0 max(4vw,16px)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:8px}
+.hexclip{clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+/* top strip + header */
+.topstrip{background:#090c18;border-bottom:1px solid #1d2448;font-size:13px;color:var(--mute)}
+.topstrip .wrap>*{flex:none}.topstrip .wrap{display:flex;gap:16px;align-items:center;height:36px;overflow:hidden;white-space:nowrap}
+.live{display:inline-flex;align-items:center;gap:8px;color:var(--ink);font-weight:800}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 #3ee6a899}70%{box-shadow:0 0 0 8px #3ee6a800}100%{box-shadow:0 0 0 0 #3ee6a800}}
+.topstrip .sep{width:5px;height:5px;flex:none;background:#2f3a6e;transform:rotate(45deg)}
+.topstrip b{color:var(--ink);font-weight:700}
+.topstrip .r{margin-inline-start:auto;display:flex;gap:14px}
+.topstrip a{text-decoration:none;color:var(--mute)}.topstrip a:hover{color:var(--ink)}
+@media(max-width:860px){.topstrip .hs{display:none}}@media(max-width:560px){.topstrip .ms{display:none}}
+header{position:sticky;top:0;z-index:30}
+.hbar{background:linear-gradient(180deg,#141a36f5,#0e1222f0);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:box-shadow .3s}
+.hbar::after{content:"";display:block;height:2px;background:linear-gradient(90deg,var(--mint),var(--sky),var(--violet),var(--pink),var(--coral),var(--amber),var(--mint));background-size:200% 100%;animation:slide 12s linear infinite}
+@keyframes slide{to{background-position:200% 0}}
+header.scrolled .hbar{box-shadow:0 14px 34px #000a}
+.bar{display:flex;align-items:center;gap:14px;height:76px;transition:height .25s}
+header.scrolled .bar{height:64px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-size:22px;font-weight:700;line-height:1}
+.brand svg{width:38px;height:38px;transition:transform .5s cubic-bezier(.3,1.5,.5,1);filter:drop-shadow(0 4px 10px #3ee6a844)}
+.brand:hover svg{transform:rotate(60deg)}
+.brand small{display:block;white-space:nowrap;margin-top:4px;font:700 11px/1 Manrope,sans-serif;color:var(--dim);letter-spacing:.02em}
+nav.tabsnav{position:relative;display:flex;gap:2px;padding:5px;margin-inline:auto;border-radius:16px;background:#080b16cc;border:1px solid var(--line);box-shadow:inset 0 1px 0 #ffffff0f,0 6px 20px #0005;scrollbar-width:none}
+nav.tabsnav::-webkit-scrollbar{display:none}
+nav.tabsnav a{position:relative;z-index:1;flex:none;display:flex;align-items:center;gap:8px;min-height:42px;padding:0 15px;border-radius:11px;text-decoration:none;color:var(--mute);font-weight:700;font-size:14.5px;white-space:nowrap;transition:color .2s,background .2s}
+nav.tabsnav a svg{width:16px;height:16px;flex:none;color:var(--tc);transition:color .2s}
+nav.tabsnav a:hover{color:var(--ink);background:#ffffff08}
+nav.tabsnav a.on{color:#081a14;background:transparent}
+nav.tabsnav a.on svg{color:#081a14}
+nav.tabsnav a .new{font-size:10px;font-weight:800;padding:2px 6px;border-radius:6px;background:#ff7eca22;color:var(--pink);border:1px solid #ff7eca55}
+nav.tabsnav a.on .new{background:#0e122233;color:#081a14;border-color:#0e122244}
+.ind{position:absolute;z-index:0;top:5px;bottom:5px;left:5px;width:0;border-radius:11px;background:linear-gradient(135deg,var(--mint),#7cf0c4 45%,var(--sky));box-shadow:0 0 22px #3ee6a855,inset 0 -3px 0 #0e122233,inset 0 1px 0 #ffffff66;transition:left .4s cubic-bezier(.3,1.35,.5,1),width .4s cubic-bezier(.3,1.35,.5,1)}
+.hact{display:flex;align-items:center;gap:8px}
+.sp{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);font-weight:700;font-size:15px;text-decoration:none;cursor:pointer;white-space:nowrap;transition:transform .15s,background .15s,filter .15s,border-color .15s}
+.btn:hover{background:var(--panel2);transform:translateY(-1px);border-color:#3b4682}
+.btn.go{background:var(--mint);border-color:var(--mint);color:#06281c;box-shadow:0 6px 0 #1d8f66,0 10px 24px #3ee6a833}
+.btn.go:hover{filter:brightness(1.07)}
+.btn.go:active{transform:translateY(3px);box-shadow:0 3px 0 #1d8f66}
+.btn.icon{width:44px;padding:0}
+.btn svg{width:18px;height:18px;flex:none}
+.btn[disabled]{opacity:.55;cursor:not-allowed;transform:none}
+.btn.lg{min-height:52px;padding:0 24px;font-size:16px}
+.btn.wallet{background:linear-gradient(135deg,#a48bff33,#ff7eca22);border-color:#a48bff66}
+@media(max-width:1120px){.bar{height:auto;flex-wrap:wrap;padding:12px 0 10px;row-gap:10px}header.scrolled .bar{height:auto}.brand{margin-inline-end:auto}nav.tabsnav{order:9;flex:1 1 100%;margin:0;overflow-x:auto}}
+@media(max-width:560px){.hact .lbl{display:none}.hact .btn{padding:0 12px}.brand small{display:none}.brand{font-size:19px}nav.tabsnav a{padding:0 12px;font-size:14px}}
+/* hero */
+.hero{text-align:center;padding:20px 0 8px}
+.scene{position:relative;width:min(900px,100%);aspect-ratio:1.55;margin:0 auto}
+.scene>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.callout{position:absolute;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:#171d38ee;border:1px solid var(--line);font-size:13px;font-weight:700;text-align:start;box-shadow:0 10px 30px #0006;max-width:210px;line-height:1.3}
+.callout i{width:12px;height:12px;flex:none;background:var(--c)}
+.callout span{color:var(--mute);font-weight:600;display:block}
+@media(max-width:760px){.callout{display:none}}
+.hero h1{font-size:clamp(26px,4.4vw,48px);max-width:900px;margin:0 auto;font-weight:700}
+.hero h1 .px{display:block}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--mint),var(--sky),var(--violet),var(--pink),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{color:var(--mute);max-width:640px;margin:16px auto 0;font-size:18px}
+.ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:24px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;background:var(--panel);border:1px solid var(--line);font-size:14px;color:var(--mute);font-weight:600}
+.chip i{width:10px;height:10px;display:inline-block}
+section.band{padding:clamp(34px,5vw,72px) 0}
+.head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.head h2{font-size:clamp(26px,3.2vw,36px)}
+.head p{color:var(--mute);margin-top:6px;max-width:620px}
+.head a{color:var(--mute);font-weight:700;text-decoration:none}
+.head a:hover{color:var(--ink)}
+.k{color:var(--mint);font-weight:800;font-size:14px;display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.k i{width:10px;height:10px;background:currentColor}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:34px}
+.stat{position:relative;padding:18px 18px 18px 20px;border:1px solid var(--line);background:linear-gradient(160deg,var(--panel2),var(--panel));border-radius:var(--r);overflow:hidden}
+.stat .l{display:flex;align-items:center;gap:8px;color:var(--mute);font-size:14px;font-weight:700}
+.stat .l i{width:14px;height:14px;background:var(--c)}
+.stat .v{font-size:clamp(22px,2.6vw,30px);margin-top:8px;white-space:nowrap}
+.stat .s{color:var(--dim);font-size:13px;margin-top:2px}
+.stat::after{content:"";position:absolute;right:-26px;bottom:-30px;width:90px;height:100px;background:var(--c);opacity:.12;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* podium */
+.podwrap{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:stretch}
+.pod{display:grid;gap:12px}
+.slot{display:grid;grid-template-columns:auto minmax(0,1fr) auto 84px;align-items:center;gap:16px;min-height:100px;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);overflow:hidden;padding-inline-start:18px;transition:border-color .2s}
+.slot:hover{border-color:var(--c)}
+.slot .ph{width:64px;height:64px;display:grid;place-items:center;background:var(--bg2);border:0;position:relative}
+.slot .ph::before{content:"";position:absolute;inset:3px;background:var(--panel);clip-path:inherit}
+.slot .ph b{position:relative;color:var(--c);font-size:20px}
+.slot .txt{color:var(--mute)}
+.slot .txt strong{display:block;color:var(--ink);font-size:16px}
+.slot .rank{align-self:stretch;display:grid;place-items:center;font-size:42px;color:var(--c);background:repeating-linear-gradient(180deg,var(--panel2) 0 8px,var(--bg2) 8px 16px);border-inline-start:3px solid var(--c);text-shadow:0 0 18px var(--c)}
+.slot .open{color:var(--dim);font-weight:700;padding-inline-end:4px}
+.podside{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(170deg,#ffc14514,var(--panel) 50%);padding:22px;display:grid;gap:14px;align-content:start}
+.podside h3{font-size:20px}
+.podside p{color:var(--mute)}
+.steps3{display:grid;gap:10px;counter-reset:s}
+.steps3 div{display:flex;gap:12px;align-items:flex-start;color:var(--mute)}
+.steps3 b{flex:none;width:28px;height:28px;display:grid;place-items:center;background:var(--c);color:#0e1222;font-size:12px}
+@media(max-width:900px){.podwrap{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:600px){.slot{grid-template-columns:auto minmax(0,1fr) 60px;gap:12px;padding-inline-start:12px}.slot .act,.slot .open{display:none}.slot .rank{font-size:30px}.slot .ph{width:52px;height:52px}}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;position:relative}
+.node{position:relative;z-index:1;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:20px}
+.node .ic{width:54px;height:54px;display:grid;place-items:center;background:var(--c);margin-bottom:14px}
+.node .ic svg{width:30px;height:30px}
+.node h3{font-size:18px}
+.node p{color:var(--mute);font-size:15px;margin-top:6px}
+.node .tag{display:inline-block;margin-top:10px;padding:3px 9px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--c)}
+.pipe{position:absolute;top:47px;height:4px;width:28px;background:repeating-linear-gradient(90deg,var(--c) 0 6px,transparent 6px 12px);background-size:24px 4px;animation:flow 1s linear infinite;z-index:2}
+@keyframes flow{to{background-position:24px 0}}
+.branch{margin-top:16px;display:flex;gap:14px;align-items:center;border:1px dashed #a48bff88;background:#a48bff12;border-radius:var(--r);padding:16px 18px}
+.branch .ic{width:44px;height:44px;flex:none;background:var(--violet);display:grid;place-items:center}
+.branch p{color:var(--mute)}.branch b{color:var(--ink)}
+@media(max-width:900px){.flow{grid-template-columns:minmax(0,1fr);gap:14px}.node{margin:0}.pipe{display:none}}
+/* ranks */
+.ranks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.rk{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:18px;display:grid;gap:10px;position:relative;overflow:hidden}
+.rk .spr{height:96px;display:grid;place-items:center;background:radial-gradient(circle at 50% 70%,color-mix(in srgb,var(--c) 30%,transparent),transparent 65%);border-radius:12px}
+.rk .spr svg{width:72px;height:72px;image-rendering:pixelated}
+.rk h3{font-size:20px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rk h3 span{font-size:15px;color:var(--c)}
+.rk p{color:var(--mute);font-size:14px}
+.meter{height:10px;border-radius:6px;background:var(--bg2);overflow:hidden;border:1px solid var(--line)}
+.meter i{display:block;height:100%;background:var(--c)}
+@media(max-width:900px){.ranks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.ranks{grid-template-columns:minmax(0,1fr)}}
+/* wear gallery */
+.wear{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:22px;align-items:start}
+.lookbox{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:22px;display:grid;gap:14px}
+.lookq{font-size:18px;padding:12px 14px;border-radius:12px;background:var(--bg2);border:1px solid var(--line)}
+.mults{display:grid;gap:8px}
+.mults div{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg2)}
+.mults b{color:var(--pink);white-space:nowrap}
+.gal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.pfp{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.pfp .pic{aspect-ratio:1;display:grid;place-items:center;background:var(--bgc)}
+.pfp .pic svg{width:70%;height:70%;image-rendering:pixelated}
+.pfp .cap{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:9px 12px;font-size:13px;font-weight:700}
+.ok{color:var(--mint)}.no{color:var(--coral)}
+@media(max-width:900px){.wear{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:480px){.gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* cards, tables */
+.card{border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+@media(max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.empty{display:grid;place-items:center;text-align:center;gap:12px;padding:36px 16px;color:var(--mute)}
+.empty svg{width:72px;height:72px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:start;color:var(--dim);font-weight:700;font-size:13px;padding:12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid var(--line)}
+.num{text-align:end}
+.scroll{overflow-x:auto}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{min-height:42px;padding:0 15px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--mute);font-weight:700;cursor:pointer}
+.tab.on{background:var(--panel2);color:var(--ink);border-color:var(--violet)}
+select,input[type=text],input[type=number],input[type=url],input[type=search],textarea{width:100%;min-height:46px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);font-size:16px}
+textarea{min-height:100px;resize:vertical}
+input::placeholder,textarea::placeholder{color:var(--dim)}
+.tools{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.tools .search{flex:1 1 220px}
+.tools select{width:auto}
+/* token + faq */
+.coin{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:linear-gradient(135deg,#3ee6a81a,#a48bff1a 50%,#ff7eca1a)}
+.coin .badge{width:110px;height:120px;display:grid;place-items:center;background:conic-gradient(from 30deg,var(--mint),var(--sky),var(--violet),var(--pink),var(--coral),var(--amber),var(--mint))}
+.coin .badge div{width:96px;height:104px;background:var(--bg);display:grid;place-items:center}
+.coin .badge svg{width:56px;height:56px}
+.coin h3{font-size:26px}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
+.facts div{padding:10px 12px;border-radius:10px;background:#0e1222aa;border:1px solid var(--line)}
+.facts span{display:block;color:var(--dim);font-size:13px;font-weight:700}
+.facts b{white-space:nowrap}
+@media(max-width:560px){.coin{grid-template-columns:minmax(0,1fr)}.facts{grid-template-columns:minmax(0,1fr)}}
+details{border:1px solid var(--line);background:var(--panel);border-radius:14px;margin-bottom:10px}
+summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:700;display:flex;justify-content:space-between;gap:12px;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--mint);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{padding:0 18px 16px;color:var(--mute)}
+/* trust, compare, cta, next */
+.trust{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.tcard{border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));border-radius:var(--r);padding:20px;display:grid;gap:8px;align-content:start;transition:transform .2s,border-color .2s}
+.tcard:hover{transform:translateY(-3px);border-color:var(--c)}
+.tcard .ic{width:46px;height:46px;display:grid;place-items:center;background:var(--c);margin-bottom:6px}
+.tcard .ic svg{width:24px;height:24px}
+.tcard h3{font-size:17px}
+.tcard p{color:var(--mute);font-size:14.5px}
+@media(max-width:900px){.trust{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.trust{grid-template-columns:minmax(0,1fr)}}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.cmp th,.cmp td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.cmp tr:last-child td{border-bottom:0}
+.cmp thead th{font-size:14px;color:var(--ink);background:var(--panel2)}
+.cmp thead th.us{color:#081a14;background:linear-gradient(135deg,var(--mint),var(--sky))}
+.cmp td.us{background:#3ee6a80d;font-weight:700}
+.cmp td:first-child{color:var(--mute);font-weight:600}
+.yes,.nope{display:inline-flex;align-items:center;gap:8px}
+.yes::before,.nope::before{content:"✓";width:22px;height:22px;flex:none;display:grid;place-items:center;font-size:12px;color:#0e1222;background:var(--mint);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.nope{color:var(--dim)}.nope::before{content:"✕";background:#3a4370;color:var(--mute)}
+.ctaband{position:relative;overflow:hidden;border-radius:22px;padding:clamp(28px,5vw,56px);background:linear-gradient(120deg,#3ee6a8,#4db8ff 35%,#a48bff 65%,#ff7eca);color:#0e1222;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:center}
+.ctaband::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16v32L28 64 0 48V16zM28 64v33M0 16L-28 0M56 16l28-16' fill='none' stroke='%230e1222' stroke-opacity='.12'/%3E%3C/svg%3E")}
+.ctaband>*{position:relative}
+.ctaband h2{font-size:clamp(26px,3.6vw,40px)}
+.ctaband p{margin-top:8px;font-size:17px;max-width:560px;color:#0e1222cc;font-weight:600}
+.ctaband .btns{display:flex;gap:12px;flex-wrap:wrap}
+.ctaband .btn{background:#0e1222;color:var(--ink);border-color:#0e1222}
+.ctaband .btn.alt{background:#ffffff55;color:#0e1222;border-color:#0e122233}
+@media(max-width:760px){.ctaband{grid-template-columns:minmax(0,1fr)}}
+.next{margin-top:48px;display:flex;align-items:center;gap:18px;justify-content:space-between;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;background:linear-gradient(120deg,var(--panel2),var(--panel));text-decoration:none;transition:border-color .2s,transform .2s}
+.next:hover{border-color:var(--mint);transform:translateY(-2px)}
+.next span{color:var(--dim);font-size:13px;font-weight:800;display:block}
+.next b{font-size:20px;display:block}
+.next small{color:var(--mute);font-size:15px}
+.next .arr{width:48px;height:48px;flex:none;display:grid;place-items:center;background:var(--mint);color:#0e1222;font-size:22px;font-weight:800}
+.safe{border:1px solid #ff6f6155;background:#ff6f6110;border-radius:var(--r);padding:20px;display:grid;gap:10px}
+.safe h3{display:flex;gap:10px;align-items:center;font-size:18px}
+.safe h3 i{width:26px;height:26px;background:var(--coral);display:grid;place-items:center;color:#0e1222;font-style:normal;font-size:14px;font-weight:800}
+.safe ul{margin:0;padding-inline-start:18px;color:var(--mute);display:grid;gap:4px}
+.ptitle{position:relative}
+.ptitle::before{content:"";position:absolute;inset:8px 0 -10px;z-index:-1;border-radius:24px;background:radial-gradient(600px 160px at 20% 50%,color-mix(in srgb,var(--pc,var(--mint)) 14%,transparent),transparent 70%)}
+/* page titles */
+.ptitle{padding:44px 0 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end}
+.ptitle h1{font-size:clamp(32px,4.6vw,50px)}
+.ptitle p{color:var(--mute);max-width:640px;margin-top:10px;font-size:17px}
+.ptitle .art{width:120px;height:120px}
+@media(max-width:600px){.ptitle{grid-template-columns:minmax(0,1fr)}.ptitle .art{display:none}}
+/* how */
+.steps{display:grid;gap:14px}
+.step{display:grid;grid-template-columns:64px minmax(0,1fr);gap:18px;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:22px}
+.step .hx{width:56px;height:56px;display:grid;place-items:center;font-size:20px;color:#0e1222;background:var(--c)}
+.step h3{font-size:21px;margin-bottom:6px}
+.step p{margin-top:8px;color:var(--mute)}
+.formula{margin-top:12px;padding:12px 14px;border-radius:10px;background:var(--bg2);border:1px solid var(--line);font-family:Silkscreen,monospace;font-size:13px;overflow-x:auto;white-space:nowrap}
+.formula b{color:var(--amber);font-weight:400}
+.ladder{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ladder span{padding:6px 10px;border-radius:9px;background:var(--bg2);border:1px solid var(--line);font-size:14px;white-space:nowrap}
+@media(max-width:600px){.step{grid-template-columns:minmax(0,1fr)}.step .hx{width:46px;height:46px;font-size:16px}}
+.calc{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:20px}
+.fig{position:relative;min-height:270px;background:var(--bg2);border:1px solid var(--line);border-radius:12px}
+.fig>svg{position:absolute;inset:0;width:100%;height:100%}
+.out{display:grid;gap:12px;align-content:start}
+.big{font-size:clamp(36px,5vw,54px);line-height:1;color:var(--mint)}
+.row{display:flex;justify-content:space-between;gap:10px;color:var(--mute)}
+.row b{color:var(--ink);white-space:nowrap}
+input[type=range]{width:100%;accent-color:var(--mint);min-height:44px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;font-weight:700}
+.check input{width:18px;height:18px;accent-color:var(--pink)}
+.rankpill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:var(--bg2);border:1px solid var(--c);color:var(--c);font-weight:800;font-size:14px;width:max-content}
+.rankpill i{width:10px;height:10px;background:var(--c)}
+@media(max-width:780px){.calc{grid-template-columns:minmax(0,1fr)}}
+/* launch */
+.launch{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start}
+.form{display:grid;gap:20px}
+.kind{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kind label{position:relative;display:flex;gap:14px;align-items:center;border:1px solid var(--line);background:var(--panel);border-radius:var(--r);padding:16px;cursor:pointer}
+.kind input{position:absolute;opacity:0}
+.kind label:has(input:checked){border-color:var(--mint);background:#3ee6a812}
+.kind label:has(input:focus-visible){outline:3px solid var(--sky)}
+.kind .ic{width:40px;height:40px;flex:none;background:var(--c)}
+.kind b{display:block;font-size:17px}
+.kind span{color:var(--mute);font-size:14px}
+.f label.t,.f .t{display:flex;justify-content:space-between;font-weight:700;margin-bottom:6px}
+.f .t small{color:var(--dim);font-weight:600}
+.f .hint{color:var(--dim);font-size:14px;margin-top:6px}
+.drop{display:flex;align-items:center;gap:16px;border:2px dashed var(--line);border-radius:var(--r);padding:16px;background:var(--panel);cursor:pointer;transition:border-color .2s}
+.drop:hover,.drop.over{border-color:var(--mint)}
+.drop .pv{width:80px;height:88px;flex:none;background:var(--bg2);display:grid;place-items:center;color:var(--dim);font-size:11px;text-align:center;overflow:hidden}
+.drop .pv img{width:100%;height:100%;object-fit:cover}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ideas{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ideas button{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--mute);font-size:13px;font-weight:700;cursor:pointer}
+.ideas button:hover{color:var(--ink);border-color:var(--pink)}
+.buyrow{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.buyrow button{min-height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);font-weight:700;cursor:pointer}
+@media(max-width:600px){.two,.kind{grid-template-columns:minmax(0,1fr)}}
+.side{position:sticky;top:90px;display:grid;gap:14px}
+.lcard{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.lcard .top{height:86px;background:linear-gradient(135deg,var(--violet),var(--pink),var(--amber));position:relative}
+.lcard .img{position:absolute;left:18px;bottom:-34px;width:76px;height:84px;background:var(--bg);display:grid;place-items:center;overflow:hidden}
+.lcard .img img{width:100%;height:100%;object-fit:cover}
+.lcard .img svg{width:44px;height:44px}
+.lcard .body{padding:44px 18px 18px}
+.lcard h3{font-size:20px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.lcard h3 span{color:var(--mint);font-size:15px}
+.lcard .about{color:var(--mute);font-size:14px;margin-top:6px;overflow-wrap:anywhere}
+.lcard .lk{display:inline-flex;gap:6px;align-items:center;margin-top:10px;font-size:13px;font-weight:700;color:var(--pink);background:#ff7eca14;border:1px solid #ff7eca44;padding:4px 10px;border-radius:999px;overflow-wrap:anywhere}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:14px}
+.mini div{background:var(--bg2);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--dim);font-weight:700}
+.mini b{display:block;color:var(--ink);font-size:15px}
+.kv div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.kv div:last-child{border:0}
+.kv span{color:var(--mute)}
+.kv b{text-align:end}
+.list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.list li{display:flex;gap:10px;align-items:center;color:var(--mute);font-weight:600}
+.list li i{width:18px;height:18px;flex:none;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:11px;color:#0e1222}
+.list li.done{color:var(--ink)}
+.list li.done i{background:var(--mint);border-color:var(--mint)}
+.prog{height:8px;background:var(--bg2);border-radius:6px;overflow:hidden;margin:6px 0 12px}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--sky));transition:width .3s}
+.note{font-size:14px;color:var(--mute)}
+.err{color:var(--coral);font-size:14px;min-height:1em;margin-top:4px}
+@media(max-width:920px){.launch{grid-template-columns:minmax(0,1fr)}.side{position:static}}
+/* ledger legend, bags */
+.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.legend div{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:14px 16px}
+.legend b{display:flex;align-items:center;gap:8px}
+.legend b i{width:12px;height:12px;background:var(--c)}
+.legend p{color:var(--mute);font-size:14px;margin-top:4px}
+@media(max-width:760px){.legend{grid-template-columns:minmax(0,1fr)}}
+.bagstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.bagstats div{border:1px solid var(--line);background:var(--panel);border-radius:14px;padding:16px}
+.bagstats span{color:var(--mute);font-size:14px;font-weight:700}
+.bagstats b{display:block;font-size:24px;margin-top:4px}
+@media(max-width:800px){.bagstats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* footer */
+footer{border-top:1px solid var(--line);margin-top:56px;padding:40px 0 30px;color:var(--mute);font-size:15px;background:linear-gradient(#0000,#0a0d1a)}
+.fgrid{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr));gap:24px}
+.fgrid h4{margin:0 0 10px;color:var(--ink);font-size:15px}
+.fgrid a{display:block;text-decoration:none;padding:4px 0}
+.fgrid a:hover{color:var(--ink)}
+.fbot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:30px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--dim)}
+.hexrow{display:flex;gap:4px;margin-top:12px}.hexrow i{width:14px;height:16px}
+@media(max-width:760px){.fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.fgrid>div:first-child{grid-column:1/-1}}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);opacity:0;transition:.25s;background:var(--panel2);border:1px solid var(--mint);padding:12px 18px;border-radius:12px;font-weight:700;z-index:40;max-width:calc(100vw - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.js .rv.in{opacity:1;transform:none}
+[hidden]{display:none!important}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:8em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;color:var(--dim)}.stack td:empty{display:none}.stack td.empty{padding-inline-start:0}.stack td.empty::before{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}.js .rv{opacity:1;transform:none}}
+</style>
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="logo" viewBox="0 0 40 40"><polygon points="13,3 21,7.5 21,16.5 13,21 5,16.5 5,7.5" fill="#3ee6a8"/><polygon points="27,11 35,15.5 35,24.5 27,29 19,24.5 19,15.5" fill="#ffc145"/><polygon points="13,19 21,23.5 21,32.5 13,37 5,32.5 5,23.5" fill="#ff6f61"/><rect x="11" y="10" width="2" height="2" fill="#0e1222"/><rect x="15" y="10" width="2" height="2" fill="#0e1222"/><rect x="25" y="18" width="2" height="2" fill="#0e1222"/><rect x="29" y="18" width="2" height="2" fill="#0e1222"/><rect x="11" y="26" width="2" height="2" fill="#0e1222"/><rect x="15" y="26" width="2" height="2" fill="#0e1222"/></symbol>
+<symbol id="x" viewBox="0 0 24 24"><path fill="currentColor" d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.2-8.3L2 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z"/></symbol>
+<symbol id="t-home" viewBox="0 0 16 16"><path fill="currentColor" d="M8 1 15 7h-2v8H9v-5H7v5H3V7H1z"/></symbol>
+<symbol id="t-hive" viewBox="0 0 16 16"><g fill="currentColor"><polygon points="5,1 8.5,3 8.5,7 5,9 1.5,7 1.5,3"/><polygon points="11,1 14.5,3 14.5,7 11,9 7.5,7 7.5,3" opacity=".6"/><polygon points="8,7 11.5,9 11.5,13 8,15 4.5,13 4.5,9" opacity=".85"/></g></symbol>
+<symbol id="t-launch" viewBox="0 0 16 16"><path fill="currentColor" d="M8 0c3 2 4 5 4 8l2 3-2 1-1-1H5l-1 1-2-1 2-3c0-3 1-6 4-8Zm0 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM6 13h4l-2 3z"/></symbol>
+<symbol id="t-how" viewBox="0 0 16 16"><path fill="currentColor" d="M2 2h5c.6 0 1 .4 1 1v11c0-.6-.4-1-1-1H2zm12 0H9c-.6 0-1 .4-1 1v11c0-.6.4-1 1-1h5z"/></symbol>
+<symbol id="t-ledger" viewBox="0 0 16 16"><g fill="currentColor"><rect x="1" y="2" width="3" height="3"/><rect x="6" y="2.5" width="9" height="2"/><rect x="1" y="6.5" width="3" height="3"/><rect x="6" y="7" width="9" height="2"/><rect x="1" y="11" width="3" height="3"/><rect x="6" y="11.5" width="9" height="2"/></g></symbol>
+<symbol id="t-coin" viewBox="0 0 16 16"><polygon fill="currentColor" points="8,0.5 14.5,4.2 14.5,11.8 8,15.5 1.5,11.8 1.5,4.2"/><path d="M10 6H7v1.5h2V9H6" fill="none" stroke="#0e1222" stroke-width="1.6"/><rect x="7.4" y="3.6" width="1.2" height="2" fill="#0e1222"/><rect x="7.4" y="9" width="1.2" height="2" fill="#0e1222"/></symbol>
+<symbol id="t-bag" viewBox="0 0 16 16"><path fill="currentColor" d="M5 5V4a3 3 0 0 1 6 0v1h3l-1 10H3L2 5zm1.5 0h3V4a1.5 1.5 0 0 0-3 0z"/></symbol>
+<symbol id="t-wallet" viewBox="0 0 16 16"><path fill="currentColor" d="M2 3h11v2h1v9H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm9 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 20 5v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z" fill="#0e1222"/><path d="m8 12 3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></symbol>
+<symbol id="i-zero" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="#0e1222" stroke-width="3"/><path d="M6 18 18 6" stroke="#0e1222" stroke-width="3"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4h7v16H4zM13 4h7v16h-7z" fill="#0e1222"/></symbol>
+<symbol id="i-math" viewBox="0 0 24 24"><path d="M4 7h7M7.5 3.5v7M14 7h6M4 17l6-6M4 11l6 6M14 15h6M14 19h6" stroke="#0e1222" stroke-width="2.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 20h18M6 16l4-5 3 3 5-7" fill="none" stroke="#0e1222" stroke-width="2.5" stroke-linecap="square"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" fill="#0e1222"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#0e1222" stroke-width="2.5"/></symbol>
+<symbol id="i-desk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="#0e1222" stroke-width="2.5"/><path d="M12 7v5l3 3" fill="none" stroke="#0e1222" stroke-width="2.5"/></symbol>
+<symbol id="i-people" viewBox="0 0 24 24"><rect x="4" y="5" width="6" height="6" fill="#0e1222"/><rect x="14" y="5" width="6" height="6" fill="#0e1222"/><rect x="2" y="14" width="10" height="6" fill="#0e1222"/><rect x="12" y="14" width="10" height="6" fill="#0e1222"/></symbol>
+<symbol id="i-branch" viewBox="0 0 24 24"><path d="M6 3v18M6 9c8 0 12 2 12 8" fill="none" stroke="#0e1222" stroke-width="2.5"/><rect x="15" y="16" width="6" height="6" fill="#0e1222"/></symbol>
+</defs></svg>
+
+<div class="topstrip"><div class="wrap">
+  <span class="live"><i class="dot"></i>Colony launches on pump.fun</span><span class="sep ms"></span>
+  <span class="ms">Fees to holders <b>100%</b></span><span class="sep hs"></span>
+  <span class="hs">Payouts <b>every 3 min</b></span><span class="sep hs"></span>
+  <span class="hs">Loyalty <b>up to 4x</b></span>
+  <span class="r"><a href="https://x.com/ColonySol">CA posted on X only · <b>@ColonySol</b></a></span>
+</div></div>
+<header id="hdr">
+  <div class="hbar"><div class="wrap bar">
+    <a class="brand px" href="#home" aria-label="Colony home"><svg><use href="#logo"/></svg><span>COLONY<small>$Colony · on Solana</small></span></a>
+    <nav class="tabsnav" id="tabsnav" aria-label="Main">
+      <span class="ind" id="ind" aria-hidden="true"></span>
+      <a href="#home" style="--tc:var(--mint)"><svg><use href="#t-home"/></svg>Home</a>
+      <a href="#colonies" style="--tc:var(--amber)"><svg><use href="#t-hive"/></svg>Colonies</a>
+      <a href="#launch" style="--tc:var(--coral)"><svg><use href="#t-launch"/></svg>Launch</a>
+      <a href="#how" style="--tc:var(--sky)"><svg><use href="#t-how"/></svg>How it works</a>
+      <a href="#ledger" style="--tc:var(--violet)"><svg><use href="#t-ledger"/></svg>Ledger</a>
+      <a href="#coin" style="--tc:var(--pink)"><svg><use href="#t-coin"/></svg>$Colony</a>
+    </nav>
+    <div class="hact">
+      <a class="btn icon" href="https://x.com/ColonySol" aria-label="Colony on X"><svg><use href="#x"/></svg></a>
+      <a class="btn icon" href="#bags" aria-label="Your bags" title="Your bags"><svg><use href="#t-bag"/></svg></a>
+      <button class="btn wallet" id="connect" type="button"><svg><use href="#t-wallet"/></svg><span class="lbl">Connect</span></button>
+    </div>
+  </div></div>
+</header>
+
+<main>
+<!-- HOME -->
+<div data-view="home">
+  <section class="hero wrap">
+    <div class="scene">
+      <svg id="colonySvg" aria-hidden="true"></svg>
+      <div class="callout" style="--c:var(--mint);left:2%;top:10%"><i class="hexclip"></i><div>Payout desk<span>Pays every 3 minutes</span></div></div>
+      <div class="callout" style="--c:var(--amber);right:1%;top:16%"><i class="hexclip"></i><div>Loyal colonists<span>Count up to 4x</span></div></div>
+      <div class="callout" style="--c:var(--pink);left:4%;bottom:12%"><i class="hexclip"></i><div>Wear the coin<span>Up to 1.5x bonus</span></div></div>
+      <div class="callout" style="--c:var(--violet);right:3%;bottom:8%"><i class="hexclip"></i><div>Outposts<span>Every buy buys the parent first</span></div></div>
+    </div>
+    <h1><span class="px">The launchpad built for</span><span class="px"><em>colonies</em> to grow and last</span></h1>
+    <p class="lead">Launch a coin as a colony. Every creator fee it earns is paid out in SOL to the colonists who hold it, every 3 minutes, forever.</p>
+    <div class="ctas"><a class="btn go lg" href="#launch">Launch a colony</a><a class="btn lg" href="#how">How it works</a></div>
+    <div class="chips">
+      <span class="chip"><i class="hexclip" style="background:var(--mint)"></i>100% of fees to holders</span>
+      <span class="chip"><i class="hexclip" style="background:var(--amber)"></i>Loyalty up to 4x</span>
+      <span class="chip"><i class="hexclip" style="background:var(--pink)"></i>Wear the coin, 1.5x</span>
+      <span class="chip"><i class="hexclip" style="background:var(--sky)"></i>Built for pump.fun</span>
+    </div>
+    <div class="stats">
+      <div class="stat" style="--c:var(--mint)"><div class="l"><i class="hexclip"></i>Paid to holders</div><div class="v px">0.00 SOL</div><div class="s">Across every colony</div></div>
+      <div class="stat" style="--c:var(--amber)"><div class="l"><i class="hexclip"></i>Colonies</div><div class="v px">0</div><div class="s">Launched here</div></div>
+      <div class="stat" style="--c:var(--pink)"><div class="l"><i class="hexclip"></i>Wearing the coin</div><div class="v px">0</div><div class="s">Holders with the picture on</div></div>
+      <div class="stat" style="--c:var(--violet)"><div class="l"><i class="hexclip"></i>Outposts</div><div class="v px">0</div><div class="s">Child colonies</div></div>
+    </div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k"><i class="hexclip"></i>The podium</div><h2>Biggest colonies</h2></div><a href="#colonies">See all →</a></div>
+    <div class="podwrap">
+      <div class="pod">
+        <div class="slot" style="--c:var(--amber)"><div class="ph hexclip" style="background:var(--amber)"><b class="px">?</b></div><div class="txt"><strong>Open throne</strong>The first colony takes the top spot</div><a class="btn go act" href="#launch">Launch a colony</a><div class="rank px">1</div></div>
+        <div class="slot" style="--c:var(--sky)"><div class="ph hexclip" style="background:var(--sky)"><b class="px">?</b></div><div class="txt"><strong>Open</strong>Waiting for a colony</div><div class="open">Open</div><div class="rank px">2</div></div>
+        <div class="slot" style="--c:var(--coral)"><div class="ph hexclip" style="background:var(--coral)"><b class="px">?</b></div><div class="txt"><strong>Open</strong>Waiting for a colony</div><div class="open">Open</div><div class="rank px">3</div></div>
+      </div>
+      <div class="podside">
+        <h3>Claim a spot on the podium</h3>
+        <p>The three biggest colonies by market cap stand here for every visitor to see.</p>
+        <div class="steps3">
+          <div><b class="hexclip px" style="--c:var(--mint)">1</b>Launch from your own wallet with your coin's picture and look.</div>
+          <div><b class="hexclip px" style="--c:var(--amber)">2</b>Holders get paid every 3 minutes, so they stay and grow.</div>
+          <div><b class="hexclip px" style="--c:var(--pink)">3</b>Colonists wear the coin and spread it across pump.fun and X.</div>
+        </div>
+        <a class="btn go" href="#launch">Start a colony</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k" style="color:var(--amber)"><i class="hexclip"></i>Where the fees go</div><h2>Every fee flows back to the colony</h2><p>Nothing is kept by the platform. The only cost is the Solana network fee of each transaction.</p></div></div>
+    <div class="flow">
+      <div class="node" style="--c:var(--sky)"><div class="ic hexclip"><svg><use href="#i-chart"/></svg></div><h3>Trades on pump.fun</h3><p>Every buy and sell of a colony coin earns pump.fun creator fees.</p><span class="tag">Creator fees</span></div>
+      <div class="node" style="--c:var(--amber)"><div class="ic hexclip"><svg><use href="#i-lock"/></svg></div><h3>Locked at 100%</h3><p>Fee sharing is set to the Colony payout wallet at launch and locked for good.</p><span class="tag">Nobody can change it</span></div>
+      <div class="node" style="--c:var(--mint)"><div class="ic hexclip"><svg><use href="#i-desk"/></svg></div><h3>The payout desk</h3><p>Collects the fees and splits them by bag, time held, loyalty and wearing.</p><span class="tag">Every 3 minutes</span></div>
+      <div class="node" style="--c:var(--pink)"><div class="ic hexclip"><svg><use href="#i-people"/></svg></div><h3>Colonists paid</h3><p>Paid in SOL to every wallet holding at least 0.2 SOL worth of the coin.</p><span class="tag">Written to the ledger</span></div>
+      <i class="pipe" style="--c:var(--sky);left:calc(25% - 21px)"></i><i class="pipe" style="--c:var(--amber);left:calc(50% - 14px)"></i><i class="pipe" style="--c:var(--mint);left:calc(75% - 7px)"></i>
+    </div>
+    <div class="branch"><div class="ic hexclip"><svg width="24" height="24"><use href="#i-branch"/></svg></div><p><b>Outposts branch off the colony.</b> An outpost is paired with its parent, so every buy of it buys the parent first. Its own 0.95 percent creator fee is paid to its holders in the parent's coin, unsold.</p></div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k" style="color:var(--coral)"><i class="hexclip"></i>Loyalty</div><h2>Rise through the colony</h2><p>Your loyalty climbs from 1x towards 4x the longer your coins stay in your bag. Each stage of the climb has a name.</p></div><a href="#how">Work out your weight →</a></div>
+    <div class="ranks" id="ranks"></div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k" style="color:var(--pink)"><i class="hexclip"></i>Wear the coin</div><h2>Wear the look, earn more</h2><p>Holders who wear the coin as their profile picture are the ones working its bags, so their share counts more.</p></div></div>
+    <div class="wear">
+      <div class="lookbox">
+        <div class="note">Example look, written at launch</div>
+        <div class="lookq px">any animal wearing a hoodie</div>
+        <div class="mults">
+          <div><span>pump.fun profile picture</span><b>1.25x</b></div>
+          <div><span>X profile picture, wallet linked</span><b>1.25x</b></div>
+          <div><span>Both at once</span><b>1.5x</b></div>
+        </div>
+        <p class="note">Every holder is checked again every 30 minutes. The bonus ends when the picture comes off.</p>
+      </div>
+      <div class="gal" id="gal"></div>
+    </div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="grid2">
+      <div>
+        <div class="head"><h2>Latest payouts</h2><a href="#ledger">Ledger →</a></div>
+        <div class="card empty"><svg viewBox="0 0 64 64"><polygon points="32,6 55,19 55,45 32,58 9,45 9,19" fill="#3ee6a814" stroke="#3ee6a8" stroke-width="2" stroke-dasharray="5 5"/><path d="M32 22v12l7 6" stroke="#3ee6a8" stroke-width="3" fill="none"/></svg>No payouts yet. The first one goes out a few minutes after the first colony earns its first fees.</div>
+      </div>
+      <div>
+        <div class="head"><h2>More colonies</h2><a href="#colonies">See all →</a></div>
+        <div class="card empty"><svg viewBox="0 0 64 64"><polygon points="32,6 55,19 55,45 32,58 9,45 9,19" fill="#ffc14514" stroke="#ffc145" stroke-width="2" stroke-dasharray="5 5"/><path d="M32 22v20M22 32h20" stroke="#ffc145" stroke-width="3"/></svg>No colonies yet. Be the first to found one.<a class="btn go" href="#launch">Found the first colony</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k" style="color:var(--sky)"><i class="hexclip"></i>Built in the open</div><h2>Nothing hidden, nothing kept</h2><p>Every rule that moves money is fixed at launch and visible to everyone.</p></div></div>
+    <div class="trust">
+      <div class="tcard" style="--c:var(--mint)"><div class="ic hexclip"><svg><use href="#i-shield"/></svg></div><h3>Locked fee sharing</h3><p>Set to 100 percent for the payout wallet at launch. Nobody can change it, including the creator and us.</p></div>
+      <div class="tcard" style="--c:var(--amber)"><div class="ic hexclip"><svg><use href="#i-zero"/></svg></div><h3>No platform cut</h3><p>Colony keeps nothing. The only cost is the Solana network fee of each transaction.</p></div>
+      <div class="tcard" style="--c:var(--violet)"><div class="ic hexclip"><svg><use href="#i-book"/></svg></div><h3>Public ledger</h3><p>Every collection and payout is written down with its Solana transaction for anyone to check.</p></div>
+      <div class="tcard" style="--c:var(--pink)"><div class="ic hexclip"><svg><use href="#i-math"/></svg></div><h3>Open payout math</h3><p>Shares follow one published formula: amount, time held, loyalty and wearing bonus.</p></div>
+    </div>
+  </section>
+
+  <section class="band wrap rv">
+    <div class="head"><div><div class="k" style="color:var(--amber)"><i class="hexclip"></i>Compare</div><h2>Colony against a typical launch</h2><p>The same pump.fun coin, with the fees pointed at the people who hold it.</p></div></div>
+    <div class="scroll"><table class="cmp">
+      <thead><tr><th></th><th class="us">Launched on Colony</th><th>Typical pump.fun launch</th></tr></thead>
+      <tbody>
+        <tr><td>Where creator fees go</td><td class="us"><span class="yes">100% to holders, locked</span></td><td><span class="nope">To the creator's wallet</span></td></tr>
+        <tr><td>Holder payouts</td><td class="us"><span class="yes">In SOL, every 3 minutes</span></td><td><span class="nope">None</span></td></tr>
+        <tr><td>Rewards for holding longer</td><td class="us"><span class="yes">Loyalty up to 4x</span></td><td><span class="nope">None</span></td></tr>
+        <tr><td>Rewards for wearing the coin</td><td class="us"><span class="yes">Up to 1.5x</span></td><td><span class="nope">None</span></td></tr>
+        <tr><td>Child coins that pump the parent</td><td class="us"><span class="yes">Outposts buy the parent first</span></td><td><span class="nope">None</span></td></tr>
+        <tr><td>Public record of every payout</td><td class="us"><span class="yes">Ledger with transactions</span></td><td><span class="nope">None</span></td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section class="wrap rv">
+    <div class="ctaband">
+      <div><h2>Ready to found a colony?</h2><p>Launch from your own wallet in one signing. Your holders start earning from the first fee.</p></div>
+      <div class="btns"><a class="btn lg" href="#launch">Launch a colony</a><a class="btn lg alt" href="#how">How it works</a></div>
+    </div>
+  </section>
+</div>
+
+<!-- COIN -->
+<div data-view="coin" hidden class="wrap" style="--pc:var(--pink)">
+  <div class="ptitle"><div><div class="k" style="color:var(--pink)"><i class="hexclip"></i>The coin</div><h1>$Colony</h1><p>The coin of the Colony launchpad, launching on pump.fun.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="grid2" style="align-items:start">
+    <div style="display:grid;gap:18px">
+      <div class="coin">
+        <div class="badge hexclip"><div class="hexclip"><svg><use href="#logo"/></svg></div></div>
+        <div><h3 class="px">$Colony</h3><p class="note">Launching on pump.fun. Starts on the bonding curve like every pump.fun coin.</p>
+          <div class="facts"><div><span>Chain</span><b>Solana</b></div><div><span>Launch</span><b>pump.fun</b></div><div><span>Supply</span><b>1,000,000,000</b></div><div><span>Decimals</span><b>6</b></div><div><span>Ticker</span><b>$Colony</b></div><div><span>Contract address</span><b>Posted on X only</b></div></div>
+          <a class="btn" style="margin-top:14px" href="https://x.com/ColonySol"><svg><use href="#x"/></svg>Follow @ColonySol</a></div>
+      </div>
+      <div class="safe"><h3><i class="hexclip">!</i>Stay safe</h3><ul><li>The only $Colony contract address is the one posted on our X account, <a href="https://x.com/ColonySol">@ColonySol</a>.</li><li>Colony will never message you first or ask for your seed phrase.</li><li>Nobody from Colony will ask you to send SOL to a wallet.</li></ul></div>
+    </div>
+    <div id="faq">
+      <div class="head"><h2>Questions</h2></div>
+      <details open><summary>Does Colony keep any of the fees?</summary><p>No. Every creator fee goes to the coin's holders. The only cost is the Solana network fee of each transaction.</p></details>
+      <details><summary>Who gets paid?</summary><p>Every wallet holding at least 0.2 SOL worth of the coin. Shares are weighted by amount held, seconds held, loyalty and the wearing bonus.</p></details>
+      <details><summary>Can the creator change the fee sharing later?</summary><p>No. The launch sets pump.fun fee sharing to 100 percent for the Colony payout wallet and locks it. Nobody can change it afterwards, including the creator and us.</p></details>
+      <details><summary>What happens to my loyalty if I buy or sell?</summary><p>Buying more mixes new coins into your bag, so the age drops in proportion. Selling part cuts the age by the part you sold. Selling everything starts you again from 1x.</p></details>
+      <details><summary>How is wearing the coin checked?</summary><p>Your pump.fun picture counts 1.25x, your X picture counts 1.25x once you sign in with X and link your wallet, and both count 1.5x. Every holder is checked again every 30 minutes.</p></details>
+      <details><summary>What is an outpost?</summary><p>A child of a colony, paired with its parent on pump.fun so every buy of the outpost buys the parent first. Its 0.95 percent creator fee goes to its holders in the parent's coin.</p></details>
+      <details><summary>Where is the $Colony contract address?</summary><p>Only on our X account, <a href="https://x.com/ColonySol">@ColonySol</a>. Any address posted anywhere else is not ours.</p></details>
+    </div>
+  </div>
+</div>
+
+<!-- COLONIES -->
+<div data-view="colonies" hidden class="wrap" style="--pc:var(--amber)">
+  <div class="ptitle"><div><div class="k"><i class="hexclip"></i>The hive</div><h1>Every colony</h1><p>Every colony and outpost launched here, biggest first.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="tools">
+    <input type="search" class="search" id="q" placeholder="Search by name or ticker" aria-label="Search colonies">
+    <div class="tabs" id="colTabs"><button class="tab on" type="button" data-f="all">All</button><button class="tab" type="button" data-f="col">Colonies</button><button class="tab" type="button" data-f="out">Outposts</button></div>
+    <select id="sort" aria-label="Sort colonies"><option>Market cap</option><option>Holders</option><option>Wearing the coin</option><option>Paid to holders</option><option>Newest</option></select>
+  </div>
+  <div class="card" style="padding:0">
+    <table class="stack"><thead><tr><th>#</th><th>Colony</th><th class="num">Market cap</th><th class="num">Holders</th><th class="num">Wearing</th><th class="num">Paid to holders</th><th>Born</th></tr></thead>
+    <tbody><tr><td colspan="7" class="empty" id="colEmpty">No colonies yet. <a href="#launch">Launch one.</a></td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- HOW -->
+<div data-view="how" hidden class="wrap" style="--pc:var(--sky)">
+  <div class="ptitle"><div><div class="k"><i class="hexclip"></i>How it works</div><h1>Coins grow when colonies do</h1><p>Colony is a launchpad for community coins on pump.fun. Every fee a coin earns goes to the people who hold it.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="steps">
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--mint)">1</div><div><h3>Launch</h3><p>You launch from your own wallet. The launch sets the coin's pump.fun fee sharing to 100 percent for the Colony payout wallet and locks it, so it can never be changed.</p><p>The coin is listed with its own picture on the front page and in Colonies. The three biggest stand on the podium.</p></div></div>
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--amber)">2</div><div><h3>Every fee to the holders</h3><p>Every 3 minutes the payout desk collects the coin's creator fees and pays them out in SOL to every wallet holding at least 0.2 SOL worth of the coin. Nothing is kept by the platform. The only cost is the Solana network fee of each transaction.</p><div class="formula">share = amount held <b>×</b> seconds held <b>×</b> loyalty <b>×</b> wearing bonus</div></div></div>
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--coral)">3</div><div><h3>Loyalty, up to 4x</h3><p>A fresh colonist counts 1x. The longer you hold, the more you count. The climb is fastest in the first weeks and gentler every day after, towards 4x. By day 100 the line is almost flat.</p><p>The age belongs to your coins. Buying more mixes new coins into your bag, so the age drops in proportion. Selling part of your bag cuts the age by the part you sold. Selling everything starts you again from 1x.</p><div class="formula">loyalty = 1 + 3 <b>×</b> (1 − e^(−days held / 20))</div><div class="ladder"><span>1 day 1.15x</span><span>10 days 2.18x</span><span>30 days 3.33x</span><span>100 days 3.98x</span></div></div></div>
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--pink)">4</div><div><h3>Wear the coin</h3><p>Colonists who wear the coin as their profile picture are the ones working its bags, so they earn more. Wearing counts two ways: the coin's own picture, or a picture that follows the colony's look, written at launch. If the look is "any animal wearing a hoodie", a zebra in a hoodie on pink counts just like the dog in a hoodie on yellow the coin started with.</p><p>Your pump.fun profile picture counts 1.25x. Your X profile picture counts 1.25x once you sign in with X and link your wallet. Both together count 1.5x. Every holder is checked again every 30 minutes, and the bonus ends when the picture comes off.</p></div></div>
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--violet)">5</div><div><h3>Outposts</h3><p>Anyone can launch an outpost of a colony. An outpost is paired with its parent on pump.fun, so every buy of the outpost buys the parent first. The outpost is listed on its parent's page.</p><p>An outpost carries its own 0.95 percent creator fee, paid in the parent's coin. All of it goes to the outpost's holders in the parent's coin, unsold, as their reward for pumping the parent. Each holder decides whether to keep it or sell it. The only tokens sold are the few that pay Solana network fees and the rent of a new token account for a holder who has none yet, taken from that holder's own share.</p></div></div>
+    <div class="step rv"><div class="hx hexclip px" style="--c:var(--sky)">6</div><div><h3>Every payout on the ledger</h3><p>Every collection and every payout is written to a public ledger with its Solana transaction. <a href="#ledger">Open the ledger.</a></p></div></div>
+  </div>
+
+  <section class="band">
+    <div class="head"><div><div class="k"><i class="hexclip"></i>Calculator</div><h2>Work out your weight</h2><p>See how much each coin in your bag counts against a fresh holder with no picture on.</p></div></div>
+    <div class="card">
+      <div class="calc">
+        <div class="fig" id="curveBox"><svg id="curve" role="img" aria-label="Loyalty multiplier rising from 1x towards 4x over 120 days"></svg></div>
+        <div class="out">
+          <label for="days" class="row"><span>Days held</span><b id="daysOut">30 days</b></label>
+          <input type="range" id="days" min="0" max="120" value="30">
+          <div class="checks"><label class="check"><input type="checkbox" id="wPf">pump.fun picture</label><label class="check"><input type="checkbox" id="wX">X picture</label></div>
+          <div class="rankpill" id="rankOut" style="--c:var(--violet)"><i class="hexclip"></i>Soldier</div>
+          <div class="row"><span>Loyalty</span><b id="loyOut">3.33x</b></div>
+          <div class="row"><span>Wearing bonus</span><b id="wearOut">1.00x</b></div>
+          <div><div class="note">Your weight per coin held</div><div class="big px" id="totOut">3.33x</div></div>
+          <p class="note" id="cmpOut"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- LAUNCH -->
+<div data-view="launch" hidden class="wrap" style="--pc:var(--coral)">
+  <div class="ptitle"><div><div class="k"><i class="hexclip"></i>Launch</div><h1>Found a colony</h1><p>Every fee your coin earns goes to the people who hold it.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="launch">
+    <form class="form" id="lf" novalidate>
+      <div class="kind">
+        <label style="--c:var(--mint)"><input type="radio" name="kind" value="col" checked><span class="ic hexclip"></span><div><b>A new colony</b><span>Paired with SOL.</span></div></label>
+        <label style="--c:var(--violet)"><input type="radio" name="kind" value="out"><span class="ic hexclip"></span><div><b>An outpost of a colony</b><span>Paired with a colony here.</span></div></label>
+      </div>
+      <div class="f" id="parentF" hidden><label class="t" for="parent">Parent colony</label><select id="parent" disabled><option>No colonies yet</option></select><div class="hint">Outposts open once the first colony is live.</div></div>
+      <div class="f"><span class="t">Image</span>
+        <label class="drop" id="dropzone" for="img"><div class="pv hexclip" id="pv">PNG JPG GIF WebP</div><div><b>Upload the coin's image</b><div class="hint">Drop a file here or tap to choose. Holders who wear this picture on pump.fun or X earn more. Under 4 MB.</div></div><input type="file" id="img" accept="image/png,image/jpeg,image/gif,image/webp"></label>
+        <div class="err" id="imgErr"></div></div>
+      <div class="two">
+        <div class="f"><label class="t" for="name">Name <small id="nameC">0/32</small></label><input type="text" id="name" maxlength="32" placeholder="Night Shift"></div>
+        <div class="f"><label class="t" for="tick">Ticker <small id="tickC">0/10</small></label><input type="text" id="tick" maxlength="10" placeholder="NIGHT"></div>
+      </div>
+      <div class="f"><label class="t" for="look">The look</label><input type="text" id="look" maxlength="80" placeholder="any animal wearing a hoodie">
+        <div class="ideas" aria-label="Look ideas"><button type="button">any animal wearing a hoodie</button><button type="button">anything with laser eyes</button><button type="button">a frog in a crown</button><button type="button">pixel art on a mint background</button></div>
+        <div class="hint">Holders whose profile picture follows this look earn the wearing bonus, even with another animal, background colour or style. Write it plainly. Leave it empty and only the coin's own picture counts.</div></div>
+      <div class="f"><label class="t" for="about">What is the colony about <small id="aboutC">0/400</small></label><textarea id="about" maxlength="400"></textarea></div>
+      <div class="f"><label class="t" for="xurl">X</label><input type="url" id="xurl" placeholder="https://x.com/yourcolony"><div class="hint">The coin's website is its own page on Colony, set for you.</div><div class="err" id="xErr"></div></div>
+      <div class="f"><label class="t" for="buy">First buy (SOL)</label><input type="number" id="buy" min="0" max="50" step="0.1" placeholder="0">
+        <div class="buyrow"><button type="button" data-b="0">None</button><button type="button" data-b="0.5">0.5</button><button type="button" data-b="1">1</button><button type="button" data-b="5">5</button></div>
+        <div class="hint">Optional. Paid in SOL from your wallet in the same signing. Up to 50 SOL.</div><div class="err" id="buyErr"></div></div>
+      <button class="btn go lg" type="submit" disabled>Launching is not open yet</button>
+    </form>
+    <aside class="side">
+      <div class="lcard">
+        <div class="top"><div class="img hexclip" id="pvSide"><svg viewBox="0 0 40 40"><use href="#logo"/></svg></div></div>
+        <div class="body"><h3><span id="pvName" style="color:var(--ink);font-size:20px">Your colony</span><span id="pvTick">$TICKER</span></h3>
+          <p class="about" id="pvAbout">Tell people what the colony is about.</p>
+          <span class="lk" id="pvLook" hidden></span>
+          <div class="mini"><div>Holders<b>0</b></div><div>Wearing<b>0</b></div><div>Paid<b>0 SOL</b></div></div></div>
+      </div>
+      <div class="card"><h3 style="font-size:18px">Ready to launch</h3><div class="prog"><i id="progBar"></i></div>
+        <ul class="list" id="checklist"><li data-c="img"><i class="hexclip">✓</i>Coin image</li><li data-c="name"><i class="hexclip">✓</i>Name</li><li data-c="tick"><i class="hexclip">✓</i>Ticker</li><li data-c="look"><i class="hexclip">✓</i>The look</li><li data-c="about"><i class="hexclip">✓</i>What it is about</li></ul></div>
+      <div class="card"><h3 style="font-size:18px;margin-bottom:6px">What happens</h3>
+        <div class="kv">
+          <div><span>Pair</span><b id="sPair">SOL</b></div>
+          <div><span>Fees to holders</span><b>100%</b></div>
+          <div><span>Paid</span><b id="sPaid">in SOL every 3 min</b></div>
+          <div><span>Who counts</span><b>0.2 SOL held or more</b></div>
+          <div><span>Holding longer</span><b>climbs towards 4x</b></div>
+          <div><span>Wearing the coin</span><b>up to 1.5x</b></div>
+        </div></div>
+      <div class="card"><h3 style="font-size:18px;margin-bottom:6px">Where the fees go</h3><p class="note" style="margin-bottom:10px">Your launch sets the coin's pump.fun fee sharing to 100 percent for the Colony payout wallet and locks it. Nobody can change it afterwards, including you and us.</p><div class="kv"><div><span>Payout wallet</span><b>–</b></div></div></div>
+    </aside>
+  </div>
+</div>
+
+<!-- LEDGER -->
+<div data-view="ledger" hidden class="wrap" style="--pc:var(--violet)">
+  <div class="ptitle"><div><div class="k"><i class="hexclip"></i>Ledger</div><h1>Every collection, every payout</h1><p>Each line links to its Solana transaction, so anyone can check where the fees went.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="legend">
+    <div style="--c:var(--amber)"><b><i class="hexclip"></i>Collection</b><p>The payout desk claims a colony's creator fees from pump.fun.</p></div>
+    <div style="--c:var(--mint)"><b><i class="hexclip"></i>Payout</b><p>The fees are paid in SOL to every qualifying holder.</p></div>
+    <div style="--c:var(--violet)"><b><i class="hexclip"></i>Outpost reward</b><p>An outpost's fee is paid to its holders in the parent's coin.</p></div>
+  </div>
+  <div class="tools"><div class="tabs" id="ledTabs"><button class="tab on" type="button">All</button><button class="tab" type="button">Collections</button><button class="tab" type="button">Payouts</button><button class="tab" type="button">Outpost rewards</button></div></div>
+  <div class="card" style="padding:0">
+    <table class="stack"><thead><tr><th>Time</th><th>Colony</th><th>Type</th><th class="num">Amount</th><th class="num">Holders paid</th><th>Transaction</th></tr></thead>
+    <tbody><tr><td colspan="6" class="empty">No entries yet. The first one is written a few minutes after the first colony earns its first fees.</td></tr></tbody></table>
+  </div>
+</div>
+
+<!-- BAGS -->
+<div data-view="bags" hidden class="wrap" style="--pc:var(--pink)">
+  <div class="ptitle"><div><div class="k"><i class="hexclip"></i>Your bags</div><h1>Your place in the colonies</h1><p>Every colony you hold, your loyalty, your wearing bonus and everything you have been paid.</p></div><svg class="art" viewBox="0 0 40 40"><use href="#logo"/></svg></div>
+  <div class="bagstats">
+    <div><span>Colonies held</span><b class="px">–</b></div><div><span>Paid to you</span><b class="px">–</b></div><div><span>Best loyalty</span><b class="px">–</b></div><div><span>Wearing</span><b class="px">–</b></div>
+  </div>
+  <div class="card empty"><svg viewBox="0 0 40 40"><use href="#logo"/></svg><b style="color:var(--ink);font-size:18px">Connect a wallet to see your bags</b>Wallets connect once launching opens.<button class="btn go" type="button" data-connect>Connect</button></div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a class="brand px" href="#home" style="padding:0"><svg><use href="#logo"/></svg>COLONY</a><p style="margin-top:10px;max-width:340px">The launchpad built for colonies to grow and last. Every fee to the holders.</p>
+        <div class="hexrow"><i class="hexclip" style="background:var(--mint)"></i><i class="hexclip" style="background:var(--amber)"></i><i class="hexclip" style="background:var(--coral)"></i><i class="hexclip" style="background:var(--sky)"></i><i class="hexclip" style="background:var(--violet)"></i><i class="hexclip" style="background:var(--pink)"></i></div></div>
+      <div><h4>Colony</h4><a href="#colonies">Colonies</a><a href="#launch">Launch</a><a href="#ledger">Ledger</a><a href="#bags">Your bags</a></div>
+      <div><h4>Learn</h4><a href="#how">How it works</a><a href="#coin">$Colony</a><a href="#faq">Questions</a></div>
+      <div><h4>Community</h4><a href="https://x.com/ColonySol">X</a><a href="https://pump.fun">pump.fun</a></div>
+    </div>
+    <div class="fbot"><span class="px">COLONY · $Colony</span><span>$Colony launches on pump.fun. The contract address is posted on X only. Not financial advice.</span></div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const views=['home','colonies','how','launch','ledger','coin','bags'];
+const nav=$('#tabsnav'),ind=$('#ind'),hdr=$('#hdr');
+let io=null;
+const NEXT={colonies:['launch','Found a colony','Launch a new colony or an outpost'],how:['launch','Ready? Found a colony','Put the payout desk to work for your holders'],launch:['how','How it works','Read the payout math before you launch'],ledger:['colonies','Every colony','Browse every colony and outpost'],coin:['launch','Launch a colony','Found the first colony on the podium'],bags:['colonies','Every colony','Find a colony to join']};
+Object.entries(NEXT).forEach(([v,[to,t,d]])=>{const el=document.querySelector(`[data-view="${v}"]`);el.insertAdjacentHTML('beforeend',`<a class="next" href="#${to}"><div><span>Next</span><b>${t}</b><small>${d}</small></div><i class="arr hexclip">→</i></a>`)});
+function moveInd(){const a=nav.querySelector('a.on');if(!a){ind.style.width='0';return}ind.style.left=a.offsetLeft+'px';ind.style.width=a.offsetWidth+'px';if(nav.scrollWidth>nav.clientWidth)nav.scrollTo({left:a.offsetLeft-(nav.clientWidth-a.offsetWidth)/2,behavior:reduce?'auto':'smooth'})}
+function show(){let h=location.hash.slice(1);let target=null;if(h==='faq'){target='faq';h='coin'}if(!views.includes(h))h='home';$$('[data-view]').forEach(v=>v.hidden=v.dataset.view!==h);$$('#tabsnav a').forEach(a=>{const on=a.getAttribute('href')==='#'+h;a.classList.toggle('on',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});moveInd();if(target){const el=document.getElementById(target);el.scrollIntoView()}else window.scrollTo(0,0);if(h==='how')drawCurve()}
+new ResizeObserver(moveInd).observe(nav);
+if(document.fonts)document.fonts.ready.then(moveInd);
+addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>8),{passive:true});
+const toast=$('#toast');let tt;
+function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('show'),2600)}
+[$('#connect'),...$$('[data-connect]')].forEach(b=>b.addEventListener('click',()=>say('Wallets connect once launching opens.')));
+
+/* pixel sprites */
+const COL=['#3ee6a8','#ffc145','#ff6f61','#4db8ff','#a48bff','#ff7eca'];
+const shade=(h,f)=>'#'+h.slice(1).match(/../g).map(v=>Math.max(0,Math.min(255,Math.round(parseInt(v,16)*f))).toString(16).padStart(2,'0')).join('');
+function sprite(rows,pal){let o='';rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(pal[ch])o+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${pal[ch]}"/>`}));return o}
+const COLONIST=["..A....A..","...A..A...","..BBBBBB..",".BBBBBBBB.",".BWKBBWKB.",".BBBBBBBB.","..BBMMBB..","..CCCCCC..",".C.CCCC.C.","..C....C.."];
+const colonist=c=>sprite(COLONIST,{A:'#0e1222',B:c,W:'#ffffff',K:'#0e1222',M:'#0e1222',C:shade(c,.65)});
+
+/* hero colony */
+const svg=$('#colonySvg'),S=27,R3=Math.sqrt(3);
+let seed=11;const rnd=()=>(seed=(seed*9301+49297)%233280)/233280;
+const cells=[];
+for(let q=-5;q<=5;q++)for(let r=-3;r<=3;r++){const x=S*R3*(q+r/2),y=S*1.5*r;if(Math.abs(x)>S*R3*5.2)continue;cells.push({q,r,x,y,d:Math.hypot(x/1.5,y)})}
+cells.forEach(c=>{c.center=c.q===0&&c.r===0;c.on=c.center||c.d<S*3.2||rnd()<(c.d<S*5?.6:.28);c.col=COL[Math.floor(rnd()*6)];c.face=c.on&&!c.center&&rnd()<.35;c.h=6+Math.floor(rnd()*10)});
+const pts=(x,y,s,sy=1)=>[0,1,2,3,4,5].map(i=>{const a=Math.PI/180*(60*i-90);return(x+s*Math.cos(a)).toFixed(1)+','+(y+s*Math.sin(a)*sy).toFixed(1)}).join(' ');
+const VW=S*R3*11.4,VH=S*1.5*7+S*3;
+svg.setAttribute('viewBox',`${-VW/2} ${-VH/2} ${VW} ${VH}`);
+let o='<defs><radialGradient id="glow"><stop offset="0" stop-color="#3ee6a8" stop-opacity=".35"/><stop offset="1" stop-color="#3ee6a8" stop-opacity="0"/></radialGradient><filter id="soft"><feGaussianBlur stdDeviation="2"/></filter>';
+COL.forEach((c,i)=>o+=`<symbol id="cn${i}" viewBox="0 0 10 10">${colonist(c)}</symbol>`);
+o+='</defs>';
+o+=`<ellipse cx="0" cy="${VH*.43}" rx="${VW*.4}" ry="16" fill="#000" opacity=".45"/><ellipse cx="0" cy="0" rx="${VW*.42}" ry="${VH*.5}" fill="url(#glow)"/>`;
+const sorted=[...cells].sort((a,b)=>a.y-b.y);
+sorted.forEach(c=>{
+ if(!c.on){o+=`<polygon points="${pts(c.x,c.y,S-3)}" fill="#141a33" stroke="#2a3360" stroke-width="1.4" stroke-dasharray="4 4"/>`;return}
+ if(c.center)return;
+ const h=c.h;
+ o+=`<polygon points="${pts(c.x,c.y+h,S-2)}" fill="${shade(c.col,.35)}"/>`;
+ for(let k=h;k>0;k-=2)o+=`<polygon points="${pts(c.x,c.y+k,S-2)}" fill="${shade(c.col,.5+.25*(1-k/h))}"/>`;
+ o+=`<polygon points="${pts(c.x,c.y,S-2)}" fill="${c.col}"/><polygon points="${pts(c.x-1,c.y-2,S-9)}" fill="${shade(c.col,1.2)}" opacity=".5"/><polyline points="${pts(c.x,c.y,S-2).split(' ').slice(4).concat(pts(c.x,c.y,S-2).split(' ').slice(0,2)).join(' ')}" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6"/>`;
+ if(c.face)o+=`<use href="#cn${COL.indexOf(c.col)===5?0:5}" x="${c.x-9}" y="${c.y-12}" width="18" height="18" opacity=".95"/>`;
+});
+/* payout desk */
+o+=`<g><polygon points="${pts(0,16,S*1.25)}" fill="#0b3b2b"/><polygon points="${pts(0,8,S*1.25)}" fill="#1d8f66"/><polygon points="${pts(0,0,S*1.25)}" fill="#3ee6a8"/><polygon points="${pts(0,0,S*.95)}" fill="#0e1222"/><circle r="${S*.68}" fill="none" stroke="#2a3360" stroke-width="4"/><circle id="ring" r="${S*.68}" fill="none" stroke="#3ee6a8" stroke-width="4" stroke-linecap="round" transform="rotate(-90)" stroke-dasharray="${(2*Math.PI*S*.68).toFixed(1)}"/><text y="5" text-anchor="middle" font-family="Silkscreen,monospace" font-size="12" fill="#3ee6a8">3:00</text></g>`;
+o+='<g id="pulses"></g><g id="trav"></g>';
+svg.innerHTML=o;
+const on=cells.filter(c=>c.on&&!c.center),trav=$('#trav'),pul=$('#pulses'),ring=$('#ring');
+const C=2*Math.PI*S*.68;
+const nb=c=>cells.filter(o=>o.on&&Math.abs(o.q-c.q)<=1&&Math.abs(o.r-c.r)<=1&&Math.abs((o.q+o.r)-(c.q+c.r))<=1&&o!==c);
+const ants=Array.from({length:9},(_,i)=>({a:on[(i*7)%on.length],t:Math.random(),c:i%6}));
+ants.forEach(a=>{const n=nb(a.a);a.b=n[0]||a.a});
+trav.innerHTML=ants.map((a,i)=>`<use id="ant${i}" href="#cn${a.c}" width="16" height="16"/>`).join('');
+const P=[];let last=0,t0=performance.now();
+function frame(now){
+ ants.forEach((a,i)=>{a.t+=.007;if(a.t>=1){a.t=0;a.a=a.b;const n=nb(a.a).filter(x=>!x.center);a.b=n[Math.floor(Math.random()*n.length)]||a.a}const e=a.t<.5?2*a.t*a.t:1-(-2*a.t+2)**2/2;const x=a.a.x+(a.b.x-a.a.x)*e-8,y=a.a.y+(a.b.y-a.a.y)*e-Math.abs(Math.sin(Math.PI*a.t*3))*4-20;const el=document.getElementById('ant'+i);el.setAttribute('x',x.toFixed(1));el.setAttribute('y',y.toFixed(1))});
+ const cyc=((now-t0)%6000)/6000;ring.setAttribute('stroke-dashoffset',(C*cyc).toFixed(1));
+ if(now-last>420){last=now;const tg=on[Math.floor(Math.random()*on.length)];P.push({tg,t:0,c:tg.col})}
+ for(let i=P.length-1;i>=0;i--){P[i].t+=.02;if(P[i].t>=1)P.splice(i,1)}
+ pul.innerHTML=P.map(p=>{const x=p.tg.x*p.t,y=p.tg.y*p.t;return`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="7" fill="${p.c}" opacity="${(.5*(1-p.t)).toFixed(2)}" filter="url(#soft)"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#fff" opacity="${(1-p.t*.6).toFixed(2)}"/>`}).join('');
+ if(!reduce)requestAnimationFrame(frame)}
+requestAnimationFrame(frame);
+
+/* ranks */
+const loy=d=>1+3*(1-Math.exp(-d/20));
+const RANKS=[{n:'Larva',from:0,to:4,c:'var(--sky)',col:'#4db8ff',p:'Fresh in the colony. Every coin counts 1x from the first second.'},{n:'Worker',from:5,to:14,c:'var(--mint)',col:'#3ee6a8',p:'The climb is fastest here, in the first weeks of holding.'},{n:'Soldier',from:15,to:39,c:'var(--violet)',col:'#a48bff',p:'Past 2.4x. Your bag counts far more than a fresh one.'},{n:'Elder',from:40,to:null,c:'var(--amber)',col:'#ffc145',p:'Close to the 4x ceiling. By day 100 the line is almost flat.'}];
+$('#ranks').innerHTML=RANKS.map(r=>{const a=loy(r.from),b=r.to==null?4:loy(r.to+1);return`<div class="rk" style="--c:${r.c}"><div class="spr"><svg viewBox="0 0 10 10">${colonist(r.col)}</svg></div><h3>${r.n}<span class="px">${a.toFixed(2)}–${r.to==null?'4.00':b.toFixed(2)}x</span></h3><p>${r.to==null?'Day '+r.from+' and on':'Days '+r.from+' to '+r.to}. ${r.p}</p><div class="meter"><i style="width:${((b-1)/3*100).toFixed(0)}%"></i></div></div>`}).join('');
+const rankOf=d=>RANKS.find(r=>r.to==null||d<=r.to);
+
+/* wear gallery */
+const HEAD=["..FFFFFFFF..",".FFFFFFFFFF.",".FFKFFFFKFF.",".FFFFNNFFFF.","..FFFFFFFF.."];
+const HOOD=[".HHHDDDDHHH.","HHHHHWWHHHHH","HHHHHWWHHHHH","HHHHHHHHHHHH","HHHHHHHHHHHH"];
+const TEE=["....FFFF....","..TTTTTTTT..",".TTTTTTTTTT.","TTTTTTTTTTTT","TTTTTTTTTTTT"];
+const EARS={dog:["............","EE........EE"],cat:["..F......F..",".FF......FF."],zebra:["..F......F..",".FS......SF."],frog:["..GG....GG..",".GKG....GKG."],bear:[".FF......FF.",".FF......FF."]};
+function animal(kind,face,hood,hoodie=true){let head=HEAD.map(r=>r);if(kind==='zebra')head=head.map((r,i)=>i%2?r.replace(/F(?=F)/g,(m,o)=>o%3===0?'S':'F'):r);if(kind==='frog')head=head.map(r=>r.replace(/F/g,'G'));if(kind==='dog'){head[0]="E.FFFFFFFF.E";head[1]="EFFFFFFFFFFE"}
+ const rows=[...EARS[kind],...head,...(hoodie?HOOD:TEE)];const f=kind==='frog'?'#5fd36a':face;return sprite(rows,{F:face,G:f,K:'#0e1222',N:'#0e1222',E:shade(face,.7),S:'#0e1222',H:hood,D:shade(hood,.7),W:'#ffffff',T:hood})}
+const GAL=[{k:'dog',f:'#d9a066',h:'#ff6f61',bg:'#ffc145',t:'The coin',ok:1},{k:'zebra',f:'#ffffff',h:'#4db8ff',bg:'#ff7eca',t:'Zebra in a hoodie',ok:1},{k:'cat',f:'#ffb36b',h:'#a48bff',bg:'#3ee6a8',t:'Cat in a hoodie',ok:1},{k:'frog',f:'#5fd36a',h:'#ffc145',bg:'#a48bff',t:'Frog in a hoodie',ok:1},{k:'bear',f:'#9a6b4a',h:'#3ee6a8',bg:'#4db8ff',t:'Bear in a hoodie',ok:1},{k:'cat',f:'#cfcfe6',h:'#ff6f61',bg:'#2a3360',t:'No hoodie',ok:0,tee:1}];
+$('#gal').innerHTML=GAL.map(g=>`<div class="pfp"><div class="pic" style="--bgc:${g.bg}"><svg viewBox="0 0 12 12">${animal(g.k,g.f,g.h,!g.tee)}</svg></div><div class="cap"><span>${g.t}</span><span class="${g.ok?'ok':'no'}">${g.ok?'✓ Counts':'✕ Not the look'}</span></div></div>`).join('');
+
+/* reveal */
+if(!reduce&&'IntersectionObserver' in window){io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});$$('.rv').forEach(el=>io.observe(el))}else $$('.rv').forEach(el=>el.classList.add('in'));
+
+/* colonies + ledger tabs */
+function colEmpty(){const f=$('#colTabs .on').dataset.f,q=$('#q').value.trim();$('#colEmpty').innerHTML=q?`No colony matches “${q.replace(/[<>&"]/g,'')}” yet.`:f==='out'?'No outposts yet. They open once the first colony is live.':'No colonies yet. <a href="#launch">Launch one.</a>'}
+$$('#colTabs .tab').forEach(b=>b.addEventListener('click',()=>{$$('#colTabs .tab').forEach(x=>x.classList.toggle('on',x===b));colEmpty()}));
+$('#q').addEventListener('input',colEmpty);
+$$('#ledTabs .tab').forEach(b=>b.addEventListener('click',()=>$$('#ledTabs .tab').forEach(x=>x.classList.toggle('on',x===b))));
+
+/* calculator */
+const days=$('#days'),cv=$('#curve');
+function calc(){const d=+days.value,l=loy(d),pf=$('#wPf').checked,x=$('#wX').checked,w=pf&&x?1.5:(pf||x?1.25:1),r=rankOf(d);
+ $('#daysOut').textContent=d+(d===1?' day':' days');$('#loyOut').textContent=l.toFixed(2)+'x';$('#wearOut').textContent=w.toFixed(2)+'x';$('#totOut').textContent=(l*w).toFixed(2)+'x';
+ const rp=$('#rankOut');rp.style.setProperty('--c',r.c);rp.lastChild.textContent=r.n;
+ $('#cmpOut').textContent=`With the same bag held for the same time, you take ${(l*w).toFixed(2)} times the share of a fresh holder with no picture on.`;drawCurve()}
+function drawCurve(){const Wd=cv.clientWidth,Ht=cv.clientHeight;if(!Wd)return;const p={l:42,r:16,t:18,b:32},iw=Wd-p.l-p.r,ih=Ht-p.t-p.b;const X=d=>p.l+d/120*iw,Y=v=>p.t+ih-(v-1)/3*ih;
+ let path='';for(let d=0;d<=120;d+=2)path+=(d?'L':'M')+X(d).toFixed(1)+','+Y(loy(d)).toFixed(1);
+ const d=+days.value,small=Wd<420;let g='';
+ RANKS.forEach(r=>{const x0=X(r.from),x1=X(r.to==null?120:r.to+1);g+=`<rect x="${x0}" y="${p.t}" width="${x1-x0}" height="${ih}" fill="${r.col}" opacity=".06"/>`;if(!small)g+=`<text x="${(x0+x1)/2}" y="${p.t+14}" fill="${r.col}" font-size="11" font-weight="700" text-anchor="middle">${r.n}</text>`});
+ [1,2,3,4].forEach(v=>g+=`<line x1="${p.l}" x2="${Wd-p.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#2a3360"/><text x="${p.l-8}" y="${Y(v)+4}" fill="#a7afd6" font-size="12" text-anchor="end">${v}x</text>`);
+ (small?[0,60,120]:[0,20,40,60,80,100,120]).forEach(t=>g+=`<text x="${X(t)}" y="${Ht-10}" fill="#a7afd6" font-size="12" text-anchor="middle">${t}d</text>`);
+ cv.innerHTML=g+`<path d="${path}L${X(120)},${Y(1)}L${X(0)},${Y(1)}Z" fill="#3ee6a81a"/><path d="${path}" fill="none" stroke="#3ee6a8" stroke-width="3"/><line x1="${X(d)}" x2="${X(d)}" y1="${p.t}" y2="${p.t+ih}" stroke="#ffc145" stroke-dasharray="4 4"/><polygon points="${pts(X(d),Y(loy(d)),8)}" fill="#ffc145" stroke="#0e1222" stroke-width="2"/>`}
+[days,$('#wPf'),$('#wX')].forEach(e=>e.addEventListener('input',calc));
+const ro=new ResizeObserver(drawCurve);ro.observe($('#curveBox'));
+calc();
+
+/* launch form */
+const has={img:false};
+function check(){const s={img:has.img,name:!!$('#name').value.trim(),tick:!!$('#tick').value,look:!!$('#look').value.trim(),about:!!$('#about').value.trim()};let n=0;$$('#checklist li').forEach(li=>{const d=s[li.dataset.c];li.classList.toggle('done',d);if(d)n++});$('#progBar').style.width=(n/5*100)+'%'}
+$$('input[name=kind]').forEach(r=>r.addEventListener('change',()=>{const o=$('input[name=kind]:checked').value==='out';$('#parentF').hidden=!o;$('#sPair').textContent=o?'Parent colony':'SOL';$('#sPaid').textContent=o?'0.95% fee, in the parent coin':'in SOL every 3 min'}));
+function setImg(f){$('#imgErr').textContent='';if(!f)return;if(!/^image\/(png|jpeg|gif|webp)$/.test(f.type)){$('#imgErr').textContent='Use a PNG, JPG, GIF or WebP.';return}if(f.size>4*1024*1024){$('#imgErr').textContent='That image is over 4 MB.';return}const u=URL.createObjectURL(f);$('#pv').innerHTML=`<img src="${u}" alt="">`;$('#pvSide').innerHTML=`<img src="${u}" alt="">`;has.img=true;check()}
+$('#img').addEventListener('change',e=>setImg(e.target.files[0]));
+const dz=$('#dropzone');['dragenter','dragover'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.add('over')}));['dragleave','drop'].forEach(t=>dz.addEventListener(t,e=>{e.preventDefault();dz.classList.remove('over')}));dz.addEventListener('drop',e=>setImg(e.dataTransfer.files[0]));
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#name').addEventListener('input',e=>{$('#pvName').textContent=e.target.value||'Your colony';$('#nameC').textContent=e.target.value.length+'/32';check()});
+$('#tick').addEventListener('input',e=>{e.target.value=e.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'');$('#pvTick').textContent='$'+(e.target.value||'TICKER');$('#tickC').textContent=e.target.value.length+'/10';check()});
+function look(){const v=$('#look').value.trim();$('#pvLook').hidden=!v;$('#pvLook').textContent='Look: '+v;check()}
+$('#look').addEventListener('input',look);
+$$('.ideas button').forEach(b=>b.addEventListener('click',()=>{$('#look').value=b.textContent;look()}));
+$('#about').addEventListener('input',e=>{$('#pvAbout').textContent=e.target.value||'Tell people what the colony is about.';$('#aboutC').textContent=e.target.value.length+'/400';check()});
+$('#xurl').addEventListener('input',e=>{const v=e.target.value.trim();$('#xErr').textContent=v&&!/^https:\/\/(x|twitter)\.com\/\w+/i.test(v)?'Use a link like https://x.com/yourcolony':''});
+function buyChk(){const v=+$('#buy').value;$('#buyErr').textContent=v>50?'The first buy is capped at 50 SOL.':v<0?'Enter 0 or more.':''}
+$('#buy').addEventListener('input',buyChk);
+$$('.buyrow button').forEach(b=>b.addEventListener('click',()=>{$('#buy').value=b.dataset.b==='0'?'':b.dataset.b;buyChk()}));
+$('#lf').addEventListener('submit',e=>{e.preventDefault();say('Launching is not open yet.')});
+check();
+
+addEventListener('hashchange',show);show();
+}
+</script>
+</body>
+</html>
